@@ -12,20 +12,8 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 import ProductDetail from './ProductDetail';
-
-
-const Nav = (props) => (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Foodie Food Reviews</h1>
-          <div className="App-search">
-            <input value={props.term} onChange={props.change} ></input>
-            <button onClick={props.search}>Search for Food</button>
-          </div>
-        </header>
-      </div>
-)
+import Nav from './Nav';
+import UserSettings from './UserSettings';
 
 
 class App extends Component {
@@ -36,6 +24,9 @@ class App extends Component {
     this.state = {
       products: testData,
       searchTerm: '',
+      loggedIn: false,
+      user: '',
+
     }
   }
 
@@ -51,7 +42,7 @@ class App extends Component {
       (response) => {
       console.log('response is...', response.data)
       this.setState({
-        products: response.data.result,
+        products: response.data,
       }, () => {console.log('products are now...', this.state.products)}
       )}
     )
@@ -77,6 +68,9 @@ class App extends Component {
 
           <Route path="/product/detail" render={(props) => <ProductDetail {...props}/>} 
           />
+          <Route path="/user_settings" render={(props) => <UserSettings {...props}/>}
+          />
+
         </div>
       </Router>
     )
