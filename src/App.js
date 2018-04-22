@@ -1,8 +1,8 @@
 // import React, { Component } from 'react';
-import logo from './foodieLogo.png';
+// import logo from './foodieLogo.png';
 import './App.css';
 import axios from 'axios';
-import ProductList from './productList.jsx'
+// import ProductList from './productList.jsx'
 import testData from './testData.js';
 import React, {Component} from 'react';
 import Products from './Products';
@@ -14,6 +14,14 @@ import {
 import ProductDetail from './ProductDetail';
 import Nav from './Nav';
 import UserSettings from './UserSettings';
+const { Client } = require('pg');
+const client = new Client()
+
+await client.connect()
+
+const res = await client.query('SELECT $1::text as message', ['Hello world!'])
+console.log(res.rows[0].message) // Hello world!
+await client.end()
 
 
 class App extends Component {
@@ -56,32 +64,50 @@ class App extends Component {
       <Router>
         <div>
           <ul>
-
             <li><Link to="/products">Products</Link></li>
-
           </ul>
           <hr/>
-          <Route path="/" render={(props) => <Nav {...props} search={this.onSearch} term={this.state.searchTerm} search={this.onSearch} change={this.onChange}/>}/>
-
-          <Route path='/products' render={(props) => <Products {...props} data={this.state.products.items}/>}
-            /> 
-
-          <Route path="/product/detail" render={(props) => <ProductDetail {...props}/>} 
+          <Route path="/" render={(props) => <Nav {...props} search={this.onSearch} term={this.state.searchTerm} change={this.onChange}/>}
           />
+          <Route path='/products' render={(props) => <Products {...props} data={this.state.products.items}/>}
+          /> 
           <Route path="/user_settings" render={(props) => <UserSettings {...props}/>}
           />
+          {this.state.products.items.map((item)=>{
+            return(
+              <div> 
+                <Route exact path={`/${item.productId}/product/detail`} render={(props) => <ProductDetail {...props} item={item}/>} />
+              </div>
+            )
+            
+          })}
+          
+          </div>
+          </Router>
+        )
+      }
+      
+    }
+    
+    export default App;
+    // <Route exact path={`${item.productId}/product/detail`} render={() => <div>hello</div>}
+    
+    // convenient inline rendering
+    // <Route path="/home" render={() => <div>Home</div>}/>
+    
+// // wrapping/composing
+// const FadingRoute = ({ component: Component, ...rest }) => (
+//   <Route {...rest} render={props => (
+//     <FadeIn>
+//       <Component {...props}/>
+//     </FadeIn>
+//   )}/>
+// )
 
-        </div>
-      </Router>
-    )
-  }
-
-}
-
-export default App;
+// <FadingRoute path="/cool" component={Something}/>
 
 
-
+// <Route path="/product/detail" render={(props) => <ProductDetail {...props}/>} 
 
 // class App extends Component {
 //   constructor(props){

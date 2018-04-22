@@ -6,10 +6,19 @@ import {
   } from 'react-router-dom';
 
 
-const ProductDetail = () => (
+const ProductDetail = (props) => (
     <div>
-    {console.log(this.props)}
-      <h3>ProductDetailRender</h3>
+    <img src={props.item.image} height="200px"/>
+        <p>{props.item.title}</p>
+
+        <p>Rate this product:</p>
+        
+        <p>write your review:</p>
+        <textarea className="review-input" rows="4" cols="50">
+        </textarea>      
+        <p>User Reviews Placeholder</p>
+
+      <p></p>
     </div>
   )
   
