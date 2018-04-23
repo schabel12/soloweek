@@ -8,6 +8,12 @@
   align-content: flex-start;
 }
 
+.App .settings-logo {
+  height: 50px;
+  vertical-align: center;
+  align-content: center;
+}
+
 .App-header {
   display: flex;
   background-color: #8C0400;
