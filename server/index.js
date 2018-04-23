@@ -54,9 +54,6 @@ app.post('/likeProduct', (req, res) => {
     res.end()
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 app.post('/dislikeProduct', (req, res) => {
   // console.log('req likeproduct reqbodyparams...', req)
