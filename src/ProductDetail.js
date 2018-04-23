@@ -1,25 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
     Route,
     Link,
     BrowserRouter as Router,
   } from 'react-router-dom';
+import axios from 'axios';
 
 
-const ProductDetail = (props) => (
-    <div>
-    <img src={props.item.image} height="200px"/>
-        <p>{props.item.title}</p>
+class ProductDetail extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      productRating: ''
+    }
+    this.getRating = this.getRating.bind(this)
+  }
+  
+  componentDidMount(){
+    this.getRating(this.props.item.title)
+  }
 
-        <p>Rate this product:</p>
-        
-        <p>write your review:</p>
-        <textarea className="review-input" rows="4" cols="50">
-        </textarea>      
-        <p>User Reviews Placeholder</p>
+  getRating(productTitle) {
+    console.log('productTitle is...', productTitle)
+    axios.get('/productRating', {params: productTitle})
+    .then((response)=> {
+      console.log('response is...', response.data);
+      this.setState({
+        productRating: response.data
+      })
+    })
+  }
 
-      <p></p>
-    </div>
-  )
+    render() {
+    return (
+      <div>
+      <img src={this.props.item.image} height="200px"/>
+          <p>{this.props.item.title}</p>
+          <div className="rating">
+            {this.state.productRating}
+          </div>
+          <p>Rate this product:</p>
+          <button value={this.props.item.title} onClick={this.props.like}>I like it</button>
+          <button value={this.props.item.title} onClick={this.props.dislike}>I don't like it</button>
+
+        <p></p>
+      </div>
+    )
+  }
+}
   
 export default ProductDetail;
