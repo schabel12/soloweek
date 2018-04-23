@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 80;
 const axios = require("axios");
 const path = require("path");
 require('dotenv').config();
