@@ -1,10 +1,11 @@
 {
   "name": "foodie",
   "version": "1.0.0",
+  "main": "./server/index.js",
   "scripts": {
     "server": "nodemon ./server/index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\"",
-    "start": "react-scripts start",
+    "start": "node ./server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -25,6 +26,5 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.0"
-  },
-  "proxy": "http://localhost:5000/"
+  }
 }
