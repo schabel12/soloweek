@@ -80,7 +80,7 @@ app.get('/productRating', (req, res) => {
 
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.render(path.join(__dirname, '../build', 'index.html'));
 });
 
 db.sync()
