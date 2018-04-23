@@ -39,6 +39,17 @@ class ProductDetail extends Component {
           <div className="rating">
             {this.state.productRating}
           </div>
+          <div>
+            {this.props.alerts.map((ingredient) => {
+              if (this.props.item.ingredients.includes(ingredient)){
+                return (
+                  <div className="alerts">
+                    Contains {ingredient}
+                  </div>
+                )
+              }})
+            }
+          </div>
           <p>Rate this product:</p>
           <button value={this.props.item.title} onClick={this.props.like}>I like it</button>
           <button value={this.props.item.title} onClick={this.props.dislike}>I don't like it</button>

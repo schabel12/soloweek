@@ -22,42 +22,53 @@ class App extends Component {
     this.onChange = this.onChange.bind(this)
     this.like = this.like.bind(this)
     this.dislike = this.dislike.bind(this)
+    this.addAlert = this.addAlert.bind(this)
     this.state = {
       products: testData,
       searchTerm: '',
       loggedIn: false,
       user: '',
       productRating: '',
+      alerts: []
     }
   }
 
   onChange(e){
     this.setState({
       searchTerm: e.target.value
-    }, () => console.log(this.state.searchTerm))
+    })
   }
 
   onSearch(){
     axios.get('/findFood', {params: this.state.searchTerm})
     .then(
       (response) => {
-      console.log('response is...', response.data)
       this.setState({
         products: response.data,
-      }, () => {console.log('products are now...', this.state.products)}
-      )}
-    )
+      })
+    })
     .catch((e) => {
       console.log('error:', e)
     })
   }
 
+  addAlert(e){
+    var checkAlert = this.state.alerts.slice()
+    if (checkAlert.includes(e.target.value)) {
+      checkAlert.splice(checkAlert.indexOf(e.target.value), 1)
+    } else {
+      checkAlert.push(e.target.value)
+    }
+    this.setState({
+      alerts: checkAlert
+    }, () => console.log(this.state.alerts))
+  }
+
   like(e){
-    console.log('target value is...', e.target.value)
     axios.post('/likeProduct', {params: e.target.value})
     .then(
       (response) => {
-        console.log('response is...', response.data);
+        console.log('got response from like');
       }
     )
     .catch((err) => {
@@ -69,7 +80,7 @@ class App extends Component {
     axios.post('/dislikeProduct', {params: e.target.value})
     .then(
       (response) => {
-        console.log('response is...', response.data);
+        console.log('got response from dislike');
       }
     )
     .catch((err) => {
@@ -87,14 +98,14 @@ class App extends Component {
           <hr/>
           <Route path="/" render={(props) => <Nav {...props} search={this.onSearch} term={this.state.searchTerm} change={this.onChange}/>}
           />
-          <Route path='/products' render={(props) => <Products {...props} data={this.state.products.items}/>}
+          <Route path='/products' render={(props) => <Products {...props} alerts={this.state.alerts} data={this.state.products.items}/>}
           /> 
-          <Route path="/user_settings" render={(props) => <UserSettings {...props}/>}
+          <Route path="/user_settings" render={(props) => <UserSettings {...props} addAlert={this.addAlert}/>}
           />
           {this.state.products.items.map((item)=>{
             return(
               <div> 
-                <Route exact path={`/${item.productId}/product/detail`} render={(props) => <ProductDetail {...props} like={this.like} dislike={this.dislike} item={item}/>} />
+                <Route exact path={`/${item.productId}/product/detail`} render={(props) => <ProductDetail {...props} like={this.like} alerts={this.state.alerts} dislike={this.dislike} item={item}/>} />
               </div>
             )
           })}
