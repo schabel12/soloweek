@@ -85,15 +85,6 @@ app.get('/productRating', (req, res) => {
   })
 })
 
-<<<<<<< HEAD
-=======
-
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-});
-
->>>>>>> master
 db.sync()
 .then(() => 
   app.listen(port, () => console.log(`Listening on port ${port}`))
