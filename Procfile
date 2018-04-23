@@ -1,1 +1,1 @@
-web: node ./server/models/index.js
+web: node ./server/index.js
