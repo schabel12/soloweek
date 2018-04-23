@@ -9,7 +9,7 @@ const Review = require("./models/reviews.js");
 const db = require("./db.js");
 
 
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(bodyParser.json());
 
 app.get("/findFood", (req, res) => {
@@ -52,6 +52,10 @@ app.post('/likeProduct', (req, res) => {
       // console.log(created)
     })
     res.end()
+});
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.post('/dislikeProduct', (req, res) => {
